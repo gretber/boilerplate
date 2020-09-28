@@ -1,10 +1,11 @@
+
 // Core
 import { Reducer } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '../../../hooks';
 
 const initialState = {
-    isOnline: navigator.onLine,
+    isTodosLoading: false,
 };
 
 type TogglersState = typeof initialState;
@@ -35,9 +36,10 @@ export const togglersReducer: Reducer<TogglersState, TogglersActions> = (state =
 
         case RESET_TOGGLERS_TO_INITIAL:
             return {
-                isOnline:       navigator.onLine,
-                isLoggedIn:     false,
-                isCalendarView: true,
+            //    isOnline:       navigator.onLine,
+            //    isLoggedIn:     false,
+            //    isCalendarView: true,
+                isTodosLoading: false,
             };
 
         default: return state;
@@ -49,7 +51,7 @@ type Options = {
     value: boolean
 };
 
-export const togglerCreatorAction = ({ type, value }: Options): TogglersActions  => ({
+export const togglerCreatorAction = ({ type, value }: Options): TogglersActions => ({
     type:    SET_TOGGLER_STATE,
     payload: {
         type,
@@ -57,7 +59,7 @@ export const togglerCreatorAction = ({ type, value }: Options): TogglersActions 
     },
 });
 
-const resetTogglersToInitialAction = (): TogglersActions  => ({
+const resetTogglersToInitialAction = (): TogglersActions => ({
     type: RESET_TOGGLERS_TO_INITIAL,
 });
 
@@ -65,9 +67,8 @@ export const useTogglersRedux = () => {
     const dispatch = useDispatch();
 
     return {
-        togglersRedux:          useSelector<TogglersState>(({ togglers }) => togglers),
+        togglersRedux:          useSelector(({ togglers }) => togglers),
         setTogglerAction:       (options: Options) => void dispatch(togglerCreatorAction(options)),
         resetTogglersToInitial: () => void dispatch(resetTogglersToInitialAction()),
     };
 };
-

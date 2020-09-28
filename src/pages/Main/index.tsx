@@ -1,87 +1,59 @@
 // Core
-import React, { FC, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 // Components
-import { ErrorBoundary, Todo } from '../../components';
-
-// Api
-import { useTodosQuery, useCreateTodo, useUpdateTodo, useDeleteTodo } from '../../bus/todos';
-
-// Redux
-import { useTogglersRedux } from '../../bus/client/togglers';
+import { Todo } from '../../components';
 
 // Elements
-import { Button, Spinner } from '../../elements';
+import { Button } from '../../elements';
+
+// Redux
+import { useTodosQuery, useTodosMutations } from '../../bus/todos';
 
 // Styles
-import { Container, Header } from './styles';
+import { Header } from './styles';
 
-const Main: FC = () => {
-    const [ text, setText ] = useState<string>('');
-    const headerRef = useRef<HTMLElement>(null);
-    const { togglersRedux: { isOnline }} = useTogglersRedux();
+// Types
+import { Todo as TodoType } from '../../bus/todos/types';
 
-    const { data, isLoading: isTodosLoading } = useTodosQuery();
-    const [ createTodo, { isLoading: isCreateTodoLoading }] = useCreateTodo();
-    const [ updateTodo, { isLoading: isUpdateTodoLoading }] = useUpdateTodo();
-    const [ deleteTodo, { isLoading: isDeleteTodoLoading }] = useDeleteTodo();
+export const Main = () => {
+    const [ text, setText ] = useState('');
+    const { data } = useTodosQuery();
+    const { createMutation, updateMutation, deleteMutation } = useTodosMutations();
 
-    const isLoading = isTodosLoading
-        || isCreateTodoLoading
-        || isUpdateTodoLoading
-        || isDeleteTodoLoading;
-
-    if (!data || isLoading) {
-        return <Spinner />;
+    if (!data) {
+        return <div>Loading...</div>;
     }
 
     const onCreate = () => {
         if (text !== '') {
-            createTodo({ body: { text }});
+            createMutation({ text });
             setText('');
         }
     };
 
     return (
-        <Container>
-            {false && <Spinner absolute />}
-            <Header ref = { headerRef }>
-                <nav />
+        <section>
+            <Header>
                 <input
                     value = { text }
-                    onChange = { (event) => void setText(event.target.value) }
+                    onChange = { (event) => setText(event.target.value) }
                 />
-                <nav>
-                    <Button
-                        disabled = { !isOnline }
-                        title = 'Create TODO'
-                        onClick = { onCreate }>
-                        CREATE
-                    </Button>
-                </nav>
+                <Button onClick = { onCreate }>Create</Button>
             </Header>
             <main>
                 {
-                    data.map((todo, index) => (
+                    data.map((todo: TodoType, index: number) => (
                         <Todo
                             isColor = { Boolean(index % 2) }
                             key = { todo.id }
                             { ...todo }
-                            deleteHandler = { () => void deleteTodo({ todoId: todo.id }) }
-                            updateHandler = { () => void updateTodo({
-                                todoId: todo.id,
-                                body:   { isCompleted: !todo.isCompleted },
-                            }) }
+                            deleteHandler = { () => void deleteMutation(todo.id) }
+                            updateHandler = { () => void updateMutation({ isCompleted: !todo.isCompleted }, todo.id) }
                         />
                     ))
                 }
             </main>
-        </Container>
+        </section>
     );
 };
-
-export default () => (
-    <ErrorBoundary>
-        <Main />
-    </ErrorBoundary>
-);

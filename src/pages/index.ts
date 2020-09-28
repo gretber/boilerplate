@@ -1,4 +1,4 @@
 // Core
 import { lazy } from 'react';
 
-export const Main = lazy(() => import(/* webpackChunkName: "Main" */ './Main'));
+export const Main = lazy(() => import(/* webpackChunkName: "Main" */ './Main').then(({ Main }) => ({ default: Main })));

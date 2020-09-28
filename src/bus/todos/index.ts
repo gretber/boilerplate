@@ -1,59 +1,73 @@
 // Core
-import { useQuery, useMutation, queryCache } from 'react-query';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+// Redux
+import { useTogglersRedux } from '../client/togglers';
+
+// Hooks
+import { useSelector } from '../../hooks';
 
 // Api
-import { fetchTodos, createTodo, updateTodo, deleteTodo } from './api';
+import {
+    getTodosAsync, createTodoAsync, updateTodoAsync, deleteTodoAsync,
+} from './api';
+
+// Actions
+import {
+    setTodosAction, setTodoAction, updateTodoAction, deleteTodoAction,
+} from './actions';
 
 // Types
-import { Todos, CreateTodoInput, UpdateTodoInput, DeleteTodoInput } from './types';
+import { loadingAction } from './types';
+
+const useSelectorTodos = () => useSelector(({ todos }) => todos);
 
 export const useTodosQuery = () => {
-    return useQuery('todos', fetchTodos);
+    const dispatch = useDispatch();
+    const { togglersRedux, setTogglerAction } = useTogglersRedux();
+
+    useEffect(() => {
+        getTodosAsync({
+            setTodos:      (todos) => void dispatch(setTodosAction(todos)),
+            loadingAction: (value) => void setTogglerAction({ type: 'isTodosLoading', value }),
+        });
+    }, []);  // eslint-disable-line
+
+    return {
+        data:    useSelectorTodos(),
+        loading: togglersRedux,
+    };
 };
 
-export const useCreateTodo = () => {
-    return useMutation((input: CreateTodoInput) => createTodo(input), {
-        onSuccess: (createdTodo) => {
-            const previousTodos: Todos | undefined = queryCache.getQueryData('todos');
+export const useTodosMutations = () => {
+    const dispatch = useDispatch();
+    const { togglersRedux, setTogglerAction } = useTogglersRedux();
+    const loadingAction: loadingAction = (value) => void setTogglerAction({ type: 'isTodosLoading', value });
 
-            if (previousTodos) {
-                queryCache.setQueryData('todos', () => [ createdTodo, ...previousTodos ]);
-            }
-        },
+    const createMutation = async (body: {text: string}) => void await createTodoAsync({
+        body,
+        setTodo: (newTodo) => void dispatch(setTodoAction(newTodo)),
+        loadingAction,
     });
-};
 
-export const useUpdateTodo = () => {
-    return useMutation((input: UpdateTodoInput) => updateTodo(input), {
-        onSuccess: (updatedTodo) => {
-            const previousTodos: Todos | undefined = queryCache.getQueryData('todos');
-
-            if (previousTodos) {
-                queryCache.setQueryData('todos', () => previousTodos.map((todo) => {
-                    if (todo.id === updatedTodo.id) {
-                        return updatedTodo;
-                    }
-
-                    return todo;
-                }));
-            }
-        },
+    const updateMutation = async (body: { isCompleted: boolean }, todoId: string) => void await updateTodoAsync({
+        todoId,
+        body,
+        updateTodo: (newTodo) => void dispatch(updateTodoAction(newTodo)),
+        loadingAction,
     });
-};
 
-export const useDeleteTodo = () => {
-    return useMutation((input: DeleteTodoInput) => deleteTodo(input), {
-        onSuccess: (isTodoDeleted, { todoId }) => {
-            if (!isTodoDeleted) {
-                throw new Error('Todo delete failed.');
-            }
-
-            const previousTodos: Todos | undefined = queryCache.getQueryData('todos');
-            if (previousTodos) {
-                queryCache.setQueryData('todos', () => previousTodos.filter(
-                    (todo) => todo.id !== todoId,
-                ));
-            }
-        },
+    const deleteMutation = async (todoId: string) => void await deleteTodoAsync({
+        todoId,
+        deleteTodo: (newTodo) => void dispatch(deleteTodoAction(newTodo)),
+        loadingAction,
     });
+
+    return {
+        createMutation,
+        updateMutation,
+        deleteMutation,
+        loading: togglersRedux,
+    };
 };

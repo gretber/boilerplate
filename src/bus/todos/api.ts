@@ -1,73 +1,115 @@
 // Types
-import { FetchTodos, CreateTodoType, UpdateTodo, DeleteTodo } from './types';
+import { GetTodos, UpdateTodo, CreateTodo, DeleteTodo } from './types';
 
-// Constants
-import { API_URL } from '../../@init/constants';
+const todosUrl = `${process.env.API_URL}/todos`;
 
-// Instruments
-const todosUrl = `${API_URL}/todos`;
+export const getTodosAsync: GetTodos = async ({ setTodos, loadingAction }) => {
+    loadingAction(true);
 
-export const fetchTodos: FetchTodos = async () => {
-    const response = await fetch(todosUrl, {
-        method:  'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    try {
+        const response = await fetch(todosUrl, {
+            method:  'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-    if (response.status !== 200) {
-        throw new Error('Todos fetch failed');
+        if (response.status !== 200) {
+            throw new Error('Todos fetch failed');
+        }
+
+        const data = await response.json();
+
+        setTodos(data);
+    } catch (error) {
+        console.log(error);
+    } finally {
+        loadingAction(false);
     }
-
-    return response.json();
 };
 
-export const createTodo: CreateTodoType = async ({ body }) => {
-    const response = await fetch(todosUrl, {
-        method:  'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body:        JSON.stringify(body),
-    });
+export const createTodoAsync: CreateTodo = async ({ body, setTodo, loadingAction }) => {
+    loadingAction(true);
 
-    if (response.status !== 201) {
-        throw new Error('Todo create failed');
+    try {
+        const response = await fetch(todosUrl, {
+            method:  'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body:        JSON.stringify(body),
+        });
+
+        if (response.status !== 201) {
+            throw new Error('Todo create failed');
+        }
+
+        const data = await response.json();
+
+        setTodo(data);
+    } catch (error) {
+        console.log(error);
+    } finally {
+        loadingAction(false);
     }
-
-    return response.json();
 };
 
-export const updateTodo: UpdateTodo = async ({ todoId, body }) => {
-    const response = await fetch(`${todosUrl}/${todoId}`, {
-        method:  'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body:        JSON.stringify(body),
-    });
+export const updateTodoAsync: UpdateTodo = async ({
+    todoId, body, updateTodo, loadingAction,
+}) => {
+    loadingAction(true);
 
-    if (response.status !== 200) {
-        throw new Error('Todo update failed');
+    try {
+        const response = await fetch(`${todosUrl}/${todoId}`, {
+            method:  'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body:        JSON.stringify(body),
+        });
+
+        if (response.status !== 200) {
+            throw new Error('Todo update failed');
+        }
+
+        const data = await response.json();
+
+        updateTodo(data);
+    } catch (error) {
+        console.log(error);
+    } finally {
+        loadingAction(false);
     }
-
-    return response.json();
 };
 
-export const deleteTodo: DeleteTodo = async ({ todoId }) => {
-    const response = await fetch(`${todosUrl}/${todoId}`, {
-        method:  'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-    });
+export const deleteTodoAsync: DeleteTodo = async ({
+    todoId, deleteTodo, loadingAction,
+}) => {
+    loadingAction(true);
 
-    if (response.status !== 200) {
-        throw new Error('Todo delete failed');
+    try {
+        const response = await fetch(`${todosUrl}/${todoId}`, {
+            method:  'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        if (response.status !== 200) {
+            throw new Error('Todo delete failed');
+        }
+
+        const data = await response.json();
+
+        if (data) {
+            deleteTodo(todoId);
+        }
+    } catch (error) {
+        console.log(error);
+    } finally {
+        loadingAction(false);
     }
-
-    return response.json();
 };
