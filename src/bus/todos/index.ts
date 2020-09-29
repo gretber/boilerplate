@@ -20,7 +20,7 @@ import {
 
 // Types
 import { loadingAction } from './types';
-//Some
+
 const useSelectorTodos = () => useSelector(({ todos }) => todos);
 
 export const useTodosQuery = () => {

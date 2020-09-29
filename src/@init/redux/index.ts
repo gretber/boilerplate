@@ -10,10 +10,10 @@ import { todosReducer as todos } from '../../bus/todos/reducer';
 import { middlewares } from './middlewares';
 
 export const rootReducer = combineReducers({
-    //togglers,
+    togglers,
     todos,
 });
 
-export type AppState = typeof rootReducer;
+export type AppState = ReturnType<typeof rootReducer>;
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middlewares)));
