@@ -52,10 +52,10 @@ export const SET_TODO = 'SET_TODO';
 export const UPDATE_TODO = 'UPDATE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 
-type SetTodosType = typeof SET_TODOS;
-type SetTodoType = typeof SET_TODO;
-type UpdateTodoType = typeof UPDATE_TODO;
-type DeleteTodoType = typeof DELETE_TODO;
+export type SetTodosType = typeof SET_TODOS;
+export type SetTodoType = typeof SET_TODO;
+export type UpdateTodoType = typeof UPDATE_TODO;
+export type DeleteTodoType = typeof DELETE_TODO;
 
 type SetTodosActionType = {
     type: SetTodosType,

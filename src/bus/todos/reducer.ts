@@ -3,11 +3,10 @@ import { SET_TODOS, SET_TODO, UPDATE_TODO, DELETE_TODO, TodosActionTypes } from 
 
 // Types
 import { Todos } from './types';
-import { Reducer } from 'redux';
 
 const initialState: Todos = [];
 
-export const todosReducer: Reducer<Todos, TodosActionTypes> = (state = initialState, action: TodosActionTypes) => {
+export const todosReducer = (state = initialState, action: TodosActionTypes) => {
     switch (action.type) {
         case SET_TODOS:
             return action.payload;
