@@ -1,10 +1,14 @@
 // Middlewares
-import { Middleware } from 'redux';
 import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
+
+// Types
+import { Middleware } from 'redux';
 
 const isDev = process.env.NODE_ENV === 'development';
+const sagaMiddelware = createSagaMiddleware();
 
-const middlewares: Middleware[] = [];
+const middlewares: Middleware[] = [ sagaMiddelware ];
 
 isDev && middlewares.push(
     createLogger({
@@ -20,4 +24,4 @@ isDev && middlewares.push(
     }),
 );
 
-export { middlewares };
+export { middlewares, sagaMiddelware };

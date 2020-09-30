@@ -7,7 +7,10 @@ const initialState: types.Todos = [];
 
 export const todosReducer: Reducer<types.Todos, types.TodosActionTypes> = (state = initialState, action) => {
     switch (action.type) {
-        case types.SET_TODOS:
+        case types.TODOS_FETCH_ASYNC:
+            return state;
+
+        case types.TODOS_FILL:
             return action.payload;
 
         case types.SET_TODO:

@@ -7,12 +7,18 @@ export type Todo = {
 export type Todos = Array<Todo>;
 
 // ----------------------------- Fetch -----------------------------
-export const SET_TODOS = 'SET_TODOS';
-export type SetTodosActionType = {
-    type: typeof SET_TODOS;
+export const TODOS_FETCH_ASYNC = 'TODOS_FETCH_ASYNC';
+export type TodosFetchAsyncType = {
+    type: typeof TODOS_FETCH_ASYNC;
+};
+export type TodosFetchAsyncContract = () => TodosFetchAsyncType
+
+export const TODOS_FILL = 'TODOS_FILL';
+export type TodosFillType = {
+    type: typeof TODOS_FILL;
     payload: Todos;
 };
-export type SetTodosContract = (payload: Todos) => SetTodosActionType
+export type TodosFillContract = (payload: Todos) => TodosFillType
 
 // ----------------------------- Create -----------------------------
 export const SET_TODO = 'SET_TODO';
@@ -39,7 +45,8 @@ export type DeleteTodoActionType = {
 export type DeleteTodoContract = (payload: string) => DeleteTodoActionType
 
 export type TodosActionTypes =
-    | SetTodosActionType
+    | TodosFillType
+    | TodosFetchAsyncType
     | SetTodoActionType
     | UpdateTodoActionType
     | DeleteTodoActionType
