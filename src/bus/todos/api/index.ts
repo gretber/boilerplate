@@ -1,4 +1,4 @@
 export * from './todosFetcher';
-export * from './createTodo';
-export * from './updateTodo';
-export * from './deleteTodo';
+export * from './createTodoFetcher';
+export * from './updateTodoFetcher';
+export * from './deleteTodoFetcher';

@@ -1,11 +1,12 @@
 // Core
 import React, { FC, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 // Components
 import { ErrorBoundary, Todo } from '../../components';
 
 // Api
-import { useTodosQuery, useTodosMutations } from '../../bus/todos';
+import { useTodosQuery } from '../../bus/todos';
 
 // Redux
 import { useTogglersRedux } from '../../bus/client/togglers';
@@ -16,12 +17,16 @@ import { Button, Spinner } from '../../elements';
 // Styles
 import { Container, Header } from './styles';
 
+// Actions
+import { createTodoAsync, deleteTodoAsync, updateTodoAsync } from '../../bus/todos/actions';
+
 const Main: FC = () => {
     const [ text, setText ] = useState<string>('');
     const headerRef = useRef<HTMLElement>(null);
     const { togglersRedux: { isOnline }} = useTogglersRedux();
     const { data, loading } = useTodosQuery();
-    const { createTodo, updateTodo, deleteTodo } = useTodosMutations();
+    //const { updateTodo } = useTodosMutations();
+    const dispatch = useDispatch();
 
     if (data.length === 0 || loading) {
         return <Spinner />;
@@ -29,7 +34,7 @@ const Main: FC = () => {
 
     const onCreate = () => {
         if (text !== '') {
-            createTodo({ body: { text }});
+            dispatch(createTodoAsync({ body: { text }}));
             setText('');
         }
     };
@@ -59,11 +64,11 @@ const Main: FC = () => {
                             isColor = { Boolean(index % 2) }
                             key = { todo.id }
                             { ...todo }
-                            deleteHandler = { () => void deleteTodo({ todoId: todo.id }) }
-                            updateHandler = { () => void updateTodo({
+                            deleteHandler = { () => void dispatch(deleteTodoAsync(todo.id)) }
+                            updateHandler = { () => void dispatch(updateTodoAsync({
                                 todoId: todo.id,
                                 body:   { isCompleted: !todo.isCompleted },
-                            }) }
+                            })) }
                         />
                     ))
                 }

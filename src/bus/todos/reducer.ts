@@ -7,25 +7,23 @@ const initialState: types.Todos = [];
 
 export const todosReducer: Reducer<types.Todos, types.TodosActionTypes> = (state = initialState, action) => {
     switch (action.type) {
-        case types.TODOS_FETCH_ASYNC:
-            return state;
-
         case types.TODOS_FILL:
             return action.payload;
 
-        case types.SET_TODO:
+        case types.CREATE_TODO_SYNC:
             return [ action.payload, ...state ];
 
-        case types.UPDATE_TODO:
+        case types.UPDATE_TODO_SYNC:
             return state.map((todo) => {
-                if (todo.id === action.payload.id) {
+                if (todo.id === action.payload.todoId) {
                     return action.payload;
                 }
 
                 return todo;
             });
 
-        case types.DELETE_TODO:
+
+        case types.DELETE_TODO_SYNC:
             return state.filter((todo) => todo.id !== action.payload);
 
         default:

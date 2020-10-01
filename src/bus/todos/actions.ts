@@ -6,25 +6,41 @@ export const todosFetchAsync: types.TodosFetchAsyncContract = () => ({
     type: types.TODOS_FETCH_ASYNC,
 });
 
-export const TodosFill: types.TodosFillContract = (payload: types.Todos) => ({
+export const todosFill: types.TodosFillContract = (payload: types.Todos) => ({
     type: types.TODOS_FILL,
     payload,
 });
 
 // ----------------------------- Create -----------------------------
-export const setTodoAction: types.SetTodoContract = (payload) => ({
-    type: types.SET_TODO,
+export const createTodoAsync: types.CreateTodoAsyncContract = (payload) => ({
+    type: types.CREATE_TODO_ASYNC,
+    payload,
+});
+
+
+export const createTodoSync: types.CreateTodoSyncContract = (payload) => ({
+    type: types.CREATE_TODO_SYNC,
     payload,
 });
 
 // ----------------------------- Update -----------------------------
-export const updateTodoAction: types.UpdateTodoContract = (payload) => ({
-    type: types.UPDATE_TODO,
+export const updateTodoAsync: types.UpdateTodoAsyncContract = (payload) => ({
+    type: types.UPDATE_TODO_ASYNC,
+    payload,
+});
+
+export const updateTodoSync: types.UpdateTodoSyncContract = (payload) => ({
+    type: types.UPDATE_TODO_SYNC,
     payload,
 });
 
 // ----------------------------- Delete -----------------------------
-export const deleteTodoAction: types.DeleteTodoContract = (payload) => ({
-    type: types.DELETE_TODO,
+export const deleteTodoAsync: types.DeleteTodoAsyncContract = (payload) => ({
+    type: types.DELETE_TODO_ASYNC,
+    payload,
+});
+
+export const deleteTodoSync: types.DeleteTodoSyncContract = (payload) => ({
+    type: types.DELETE_TODO_SYNC,
     payload,
 });

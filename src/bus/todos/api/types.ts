@@ -1,6 +1,8 @@
+// Types
+import * as types from '../types';
 
 // Fetch
-export type FetchTodos = () => Promise<void>;
+export type FetchTodos = () => Promise<types.Todos>;
 
 // Create
 export type CreateTodoInput = {
@@ -8,7 +10,7 @@ export type CreateTodoInput = {
         text: string
     }
 };
-export type CreateTodoType = (input: CreateTodoInput) => Promise<void>;
+export type CreateTodoType = (input: CreateTodoInput) => Promise<types.Todo>;
 
 // Update
 export type UpdateTodoInput = {
@@ -17,10 +19,10 @@ export type UpdateTodoInput = {
         isCompleted: boolean
     }
 };
-export type UpdateTodo = (input: UpdateTodoInput) => Promise<void>;
+export type UpdateTodo = (input: UpdateTodoInput) => Promise<types.Todo>;
 
 // Delete
 export type DeleteTodoInput = {
     todoId: string
 };
-export type DeleteTodo = (input: DeleteTodoInput) => Promise<void>;
+export type DeleteTodo = (input: DeleteTodoInput) => Promise<Boolean>;

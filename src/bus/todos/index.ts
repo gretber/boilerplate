@@ -4,10 +4,13 @@ import { useSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 
 // Api
-import { todosFetcher, createTodo, updateTodo, deleteTodo } from './api';
+//import { createTodoFetcher, updateTodo, deleteTodoFetcher } from './api';
 
 // Toglers
 import { useTogglersRedux } from '../client';
+
+// Types
+import { TODOS_FETCH_ASYNC } from './types';
 
 export const useTodosQuery = () => {
     const data = useSelector(({ todos }) => todos);
@@ -15,7 +18,7 @@ export const useTodosQuery = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch({ type: 'TODOS_FETCH_ASYNC' });
+        dispatch({ type: TODOS_FETCH_ASYNC });
     }, []);
 
     return {
@@ -24,13 +27,13 @@ export const useTodosQuery = () => {
     };
 };
 
-export const useTodosMutations = () => {
-    const { togglersRedux: { isTodosFetching }} = useTogglersRedux();
+// export const useTodosMutations = () => {
+//     const { togglersRedux: { isTodosFetching }} = useTogglersRedux();
 
-    return {
-        createTodo,
-        updateTodo,
-        deleteTodo,
-        loading: isTodosFetching,
-    };
-};
+//     return {
+//         createTodoFetcher,
+//         updateTodo,
+//         deleteTodoFetcher,
+//         loading: isTodosFetching,
+//     };
+// };

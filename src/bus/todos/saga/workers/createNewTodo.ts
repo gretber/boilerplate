@@ -5,19 +5,19 @@ import { put, call } from 'redux-saga/effects';
 import * as types from '../../types';
 
 // API
-import { todosFetcher } from '../../api';
+import { createTodoFetcher } from '../../api';
 
 // Actions
-import { todosFill } from '../../actions';
+import { createTodoSync } from '../../actions';
 
 // Bus
 import { togglerCreatorAction } from '../../../client';
 
-export function* fetchTodos() {
+export function* createNewTodo({ payload: body }: types.CreateTodoAsyncActionType) {
     try {
         yield put(togglerCreatorAction({ type: 'isTodosFetching', value: true }));
-        const result: types.Todos = yield call(todosFetcher);
-        yield put(todosFill(result));
+        const result: types.Todo = yield call(createTodoFetcher, body);
+        yield put(createTodoSync(result));
     } catch (error) {
         console.log(error);
     } finally {
