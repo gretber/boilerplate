@@ -16,7 +16,7 @@ export const todosReducer: Reducer<types.Todos, types.TodosActionTypes> = (state
         case types.UPDATE_TODO_SYNC:
             return state.map((todo) => {
                 if (todo.id === action.payload.todoId) {
-                    return action.payload;
+                    return { ...todo, isCompleted: action.payload.body.isCompleted };
                 }
 
                 return todo;

@@ -18,7 +18,6 @@ export function* updateTodo({ payload: { todoId, body }}: types.UpdateTodoAsyncA
         yield put(togglerCreatorAction({ type: 'isTodosFetching', value: true }));
         const result: string = yield call(updateTodoFetcher, { todoId, body });
         if (result) {
-            console.log(result);
             yield put(updateTodoSync({ todoId, body }));
         }
     } catch (error) {

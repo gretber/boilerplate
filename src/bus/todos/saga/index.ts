@@ -10,6 +10,7 @@ import {
     fetchTodos,
     createNewTodo,
     deleteTodo,
+    updateTodo,
 } from './workers';
 
 function* watchFetchTodos(): SagaIterator {
@@ -24,10 +25,15 @@ function* watchDeleteTodo(): SagaIterator {
     yield takeEvery(types.DELETE_TODO_ASYNC, deleteTodo);
 }
 
+function* watchUpdateTodo(): SagaIterator {
+    yield takeEvery(types.UPDATE_TODO_ASYNC, updateTodo);
+}
+
 export function* watchTodos(): SagaIterator {
     yield all([
         call(watchFetchTodos),
         call(watchCreateNewTodo),
         call(watchDeleteTodo),
+        call(watchUpdateTodo),
     ]);
 }

@@ -19,7 +19,7 @@ export type UpdateTodoInput = {
         isCompleted: boolean
     }
 };
-export type UpdateTodo = (input: UpdateTodoInput) => Promise<types.Todo>;
+export type UpdateTodo = (input: UpdateTodoInput) => Promise<Boolean>;
 
 // Delete
 export type DeleteTodoInput = {

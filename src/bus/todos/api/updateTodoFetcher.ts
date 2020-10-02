@@ -1,6 +1,6 @@
 // Types
 import { UpdateTodo } from './types';
-import { Todo } from '../types';
+//import { Todo } from '../types';
 
 // Constants
 import { API_URL } from '../../../@init/constants';
@@ -19,7 +19,7 @@ export const updateTodoFetcher: UpdateTodo = async ({ todoId, body }) => {
         throw new Error('Todo update failed');
     }
 
-    const data: Todo = await response.json();
+    const data: boolean = await response.json();
 
     return data;
 };
