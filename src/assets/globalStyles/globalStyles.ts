@@ -19,5 +19,28 @@ export const GlobalStyles = createGlobalStyle`
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+    * {
+        outline: none;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 2vw;
+        line-height: 3vw;
+    }
+
+    h3 {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 34px;
+        line-height: 40px;
+        color: #1C1F28;
+    }
+
+    h4 {
+        font-size: 1.1vw;
+        font-weight: 500;
+    }
 `;
 

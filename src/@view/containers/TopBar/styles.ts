@@ -1,33 +1,47 @@
 // Core
 import styled from 'styled-components';
 
+//******************************************//
+//*************Topbar Container*************//
+//******************************************//
 export const TopbarContainer = styled.header`
     display: flex;
     align-items: center;
     width: 100%;
+    height: 67px;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 13px 86px;
     justify-content: space-between;
-    background-color: ${({ theme }) => theme.app.primary};
-    background-size: cover;
+    background-color: #fff;
+`;
 
-    h1 {
-        color: #fff;
-        font-size: 24px;
-        border-radius: 10px;
-        background-color: rgba(0,0,0,0.7);
-        padding: 5px 10px;
-        font-family: sans-serif;
+//******************************//
+//*************Logo*************//
+//******************************//
+export const Logo = styled.img`
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+`;
+
+//*************************************//
+//*************Topbar Left*************//
+//*************************************//
+export const TopbarLeft = styled.div`
+    display: flex;
+    align-items: center;
+
+    p {
+        margin-left: 15px;        
     }
 `;
 
-export const Logo = styled.img`
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-    cursor: pointer;
-
-    &:hover {
-        opacity: 0.9;
-    } 
+//**************************************//
+//*************Topbar Right*************//
+//**************************************//
+export const TopbarRight = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
 `;

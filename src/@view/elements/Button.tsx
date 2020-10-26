@@ -12,16 +12,17 @@ interface ButtonProps extends DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLB
 const Styled = styled.button<ButtonProps>`
     cursor: pointer;
     outline: none;
-    border-width: 2px;
-    border-radius: 8px;
+    border: none;
+    background: #6F96FF;
+    border-radius: 16px;
     font-family: sans-serif;
-    padding: 1px 4px;
     margin: 0px;
-    background-color: #fff;
-    color: #000;
+    height: 52px;
+    width: 206px;
+    color: #fff;
 
     &:hover {
-        border-color: ${({ theme }) => theme.button.secondary};
+        background: #0045fd;
     }
 
     &:disabled {
